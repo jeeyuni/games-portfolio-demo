@@ -1,41 +1,35 @@
-import GameCard from "./GameCard";
 
-const gamesList = [
-  {
-    id: 0,
-    name: "Catan",
-    rating: null,
-    category: "board game"
-  },
-  {
-    id: 1,
-    name: "The Greate Dalmuti",
-    rating: null,
-    category: "card game"
-  },
-  {
-    id: 2,
-    name: "Antidote",
-    rating: null,
-    category: "card game"
-  },
-  {
-    id: 3,
-    name: "Uno No Mercy",
-    rating: null,
-    category: "card game"
-  },
-]
-
-
+import { useState } from "react";
+import { TEST_GAMES } from "./TEST_GAMES";
+import HomePage from "./components/HomePage";
+import RandomPage from "./components/RandomPage";
+import { Routes, Route, Link } from "react-router-dom";
+import GamePage from "./components/GamePage";
+import { Container, Nav, Navbar } from "react-bootstrap";
 
 function App() {
-  return (
-    <div>
-      <h1>My Board Games</h1>
-      {gamesList.map(g => <GameCard game={g} />)}
-    </div>
-  );
-}
+  const [gamesList, setGamesList] = useState(TEST_GAMES)
 
-export default App;
+    return (
+      <div>
+        <Navbar bg="dark" data-bs-theme="dark">
+        <Container>
+          <Navbar.Brand as={Link} to="/">My Board Games</Navbar.Brand>
+          <Nav className="me-auto">
+            <Nav.Link as={Link} to="/">Home</Nav.Link>
+            <Nav.Link as={Link} to="/random">Random</Nav.Link>
+          </Nav>
+        </Container>
+      </Navbar>
+      <Container className = "mt-4">
+        <Routes>
+          <Route path = "/" element = { <HomePage gamesList = {gamesList}/>} />
+          <Route path = "/random" element = {<RandomPage gamesList = {gamesList}/> } />
+          <Route path = "/games/:gameId" element = { <GamePage gamesList = {gamesList}/> } />
+        </Routes>
+        </Container>
+      </div>
+    );
+  }
+
+  export default App;
